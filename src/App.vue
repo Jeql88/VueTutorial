@@ -9,18 +9,21 @@
     </nav>
   </header>
   <main>
-    <RobotBuilder />
+    <!-- <RobotBuilder /> -->
+     <Search/>
   </main>
 </template>
 
 <script>
 //import HomePage from "./home/HomePage.vue";
 import RobotBuilder from "./build/RobotBuilder.vue";
+import Search from "./search/Search.vue";
 
 export default {
   name: "App",
   components: {
     RobotBuilder,
+    Search
   },
   data() {
     return {
@@ -39,10 +42,15 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
+</style>
+<style scoped>
+/* deep selector, will style all of its children also though */
+/* .content >>> .robot-name{
+  color:red;
+} */
 main {
   margin: 0 auto;
   padding: 30px;
