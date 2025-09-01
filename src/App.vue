@@ -9,8 +9,8 @@
     </nav>
   </header>
   <main>
-    <!-- <RobotBuilder /> -->
-     <Search/>
+    <RobotBuilder />
+    <!-- <Search/> -->
   </main>
 </template>
 
@@ -23,7 +23,7 @@ export default {
   name: "App",
   components: {
     RobotBuilder,
-    Search
+    Search,
   },
   data() {
     return {
