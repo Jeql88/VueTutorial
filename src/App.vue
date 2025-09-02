@@ -28,8 +28,12 @@ export default {
   data() {
     return {
       //currentView: "HomePage",
+      userName:'Jim',
     };
   },
+  provide: {
+    userName: 'Jim'
+  }
 };
 </script>
 
