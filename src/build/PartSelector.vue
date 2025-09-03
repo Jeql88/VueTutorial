@@ -1,15 +1,15 @@
 <template>
   <div class="part" :class="position" >
-    <img :src="selectedPart.src" @click="showPartInfo = !showPartInfo" title="arm" />
+    <img :src="selectedPart.src" @click="showPartInfo()" title="arm" />
     <button @click="selectPreviousPart()" class="prev-selector"></button>
     <button @click="selectNextPart()" class="next-selector"></button>
     <span class="sale" v-show="selectedPart.onSale">Sale!</span>
-    <teleport to="#partInfo" v-if="showPartInfo">
+    <!-- <teleport to="#partInfo" v-if="showPartInfo">
     <div v-if="showPartInfo">
       <div>{{ selectedPart.cost }} {{ selectedPart.title}} {{ selectedPart.type }}</div>
       <div> {{ selectedPart.description }}</div>
     </div>
-    </teleport>
+    </teleport> -->
   </div>
 </template>
 
@@ -40,7 +40,7 @@ export default {
     },
   },
   data() {
-    return { selectedPartIndex: 0, showPartInfo: false};
+    return { selectedPartIndex: 0};
   },
   computed: {
     selectedPart() {
@@ -51,6 +51,9 @@ export default {
     this.emitSelectedPart();
   },
   methods: {
+    showPartInfo(){
+      this.$router.push({ name: 'PartInfo', params: { id: this.selectedPart.id, partType: this.selectedPart.type } });
+    },
     emitSelectedPart() {
       this.$emit("partSelected", this.selectedPart);
     },
