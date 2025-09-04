@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div v-if="availableParts" class="content">
     <div class="part-info" id="partInfo"></div>
     <div class="preview">
       <CollapsibleSection>
@@ -51,34 +51,21 @@
         @partSelected="(part) => (selectedRobot.base = part)"
       />
     </div>
-    <div>
-      <h1 class="cart">Cart</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Robot</th>
-            <th class="cost">Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(robot, index) in cart" :key="index">
-            <td>{{ robot.head.title }}</td>
-            <td class="cost">{{ robot.cost }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 </template>
 
 <script>
-import availableParts from "../data/parts";
+//import availableParts from "../data/parts";
 import createdHookMixin from "./created-hook-mixin";
 import PartSelector from "./PartSelector.vue";
 import CollapsibleSection from "./shared/CollapsibleSection.vue";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   name: "RobotBuilder",
+  created() {
+    this.getParts();
+  },
   beforeRouteLeave(to, from, next) {
     if (this.addedToCart) {
       next(true);
@@ -95,7 +82,6 @@ export default {
   },
   data() {
     return {
-      availableParts,
       cart: [],
       // selected parts indexes
       // selectedHeadIndex: 0,
@@ -114,6 +100,9 @@ export default {
   },
   mixins: [createdHookMixin],
   computed: {
+    availableParts() {
+      return this.$store.state.robots.parts;
+    },
     saleBorderClass() {
       if (this.selectedRobot.head.onSale) {
         return "sale-border";
@@ -130,6 +119,8 @@ export default {
     },
   },
   methods: {
+    //...mapMutations("robots", ["addRobotToCart"]),
+    ...mapActions("robots", ["getParts", "addRobotToCart"]),
     addToCart() {
       const robot = this.selectedRobot;
       const cost =
@@ -138,7 +129,9 @@ export default {
         robot.rightArm.cost +
         robot.base.cost +
         robot.torso.cost;
-      this.$store.commit("addRobotToCart", { ...robot, cost: cost });
+      this.addRobotToCart({ ...robot, cost: cost }).then(() =>
+        this.$router.push("/cart")
+      );
       this.addedToCart = true;
     },
   },

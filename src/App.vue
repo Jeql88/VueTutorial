@@ -7,15 +7,22 @@
           <router-link class="nav-link" :to="{ name: 'Home' }" exact>
             <img class="logo" src="@/assets/build-a-bot-logo.png" /> Build-a-bot
           </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" :to="{ name: 'Build' }" exact>
             Build
           </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" :to="{ name: 'BrowseParts' }" exact>
             Browse Parts
           </router-link>
+        </li>
+        <li class="nav-item cart">
           <router-link class="nav-link" :to="{ name: 'Cart' }"
             >Cart</router-link
           >
+          <div class="cart-items">{{ this.cartItemCount }}</div>
         </li>
       </ul>
     </nav>
@@ -38,6 +45,11 @@
 
 export default {
   name: "App",
+  computed: {
+    cartItemCount() {
+      return this.$store.state.robots.cart.length;
+    },
+  },
   data() {
     return {
       //currentView: "HomePage",
@@ -64,6 +76,19 @@ body {
 }
 </style>
 <style scoped>
+.cart-items {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+}
 /* deep selector, will style all of its children also though */
 /* .content >>> .robot-name{
   color:red;
@@ -94,6 +119,11 @@ header {
   width: 1184px;
   margin: 0 auto;
 }
+.nav-link.cart {
+  position: relative;
+  margin-left: auto;
+  border-right: none;
+}
 .router-link-active {
   font-weight: bold;
   color: white;
@@ -102,17 +132,18 @@ ul {
   padding: 3px;
   display: flex;
 }
+.nav-item.cart {
+  position: relative;
+  margin-left: auto;
+  border-right: none;
+}
 .nav-item {
   display: inline-block;
   padding: 5px 10px;
   font-size: 22px;
   border-right: 1px solid #bbb;
 }
-.nav-item.cart {
-  position: inherit;
-  margin-left: auto;
-  border-right: none;
-}
+
 .logo {
   vertical-align: middle;
   height: 30px;
